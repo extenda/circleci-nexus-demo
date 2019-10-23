@@ -4,7 +4,7 @@ orbs:
 version: 2.1 # use CircleCI 2.1
 jobs:
   build:
-    
+
     working_directory: ~/circleci-demo-java-spring
 
     docker:
@@ -20,22 +20,22 @@ jobs:
 
       - restore_cache:
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
-      
+
       - run: mvn dependency:go-offline
-      
+
       - save_cache:
           paths:
             - ~/.m2
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
-      
+
       - run: mvn package -DskipTests -DskipITs
-      
+
       - store_test_results:
           path: target/surefire-reports
-      
+
       - store_artifacts:
           path: target/demo-java-spring-0.0.1-SNAPSHOT.jar
-      
+
       - nexus-orb/install
 
       - nexus-orb/publish:
